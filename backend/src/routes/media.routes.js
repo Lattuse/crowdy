@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { auth } = require("../middleware/auth");
 const Post = require("../models/Post");
-const { canUserViewPost } = require("../utils/access"); // как у тебя называется
+const { canUserViewPost } = require("../utils/postAccess");
 const { makeS3Client } = require("../utils/s3");
 
 const { GetObjectCommand } = require("@aws-sdk/client-s3");

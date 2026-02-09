@@ -9,10 +9,6 @@ const Campaign = require("../models/Campaign");
 const User = require("../models/User");
 const { canUserViewPost } = require("../utils/postAccess");
 
-const crypto = require("crypto");
-const { PutObjectCommand } = require("@aws-sdk/client-s3");
-const { makeS3Client } = require("../utils/s3");
-
 async function createPost(req, res) {
   const creatorId = req.user.userId;
   const { title, body, minTierName, campaignId, isLockedUntilSuccess } =

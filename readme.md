@@ -1,4 +1,4 @@
-# Crowdy --- Subscription & Crowdfunding Platform
+# Crowdy - Subscription & Crowdfunding Platform
 
 ## Project Overview
 

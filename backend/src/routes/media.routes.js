@@ -1,14 +1,15 @@
-const express = require("express");
-const path = require("path");
-const fs = require("fs");
+const router = require("express").Router();
 const { auth } = require("../middleware/auth");
 const Post = require("../models/Post");
-const { canUserViewPost } = require("../utils/postAccess");
+const { canUserViewPost } = require("../utils/access"); // как у тебя называется
+const { makeS3Client } = require("../utils/s3");
 
-const router = express.Router();
+const { GetObjectCommand } = require("@aws-sdk/client-s3");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
-router.get("/:postId/:filename", auth, async (req, res) => {
-  const { postId, filename } = req.params;
+// key, not filename
+router.get("/:postId/:key", auth, async (req, res) => {
+  const { postId, key } = req.params;
 
   const post = await Post.findById(postId).lean();
   if (!post) return res.status(404).json({ message: "Post not found" });
@@ -19,14 +20,30 @@ router.get("/:postId/:filename", auth, async (req, res) => {
     post,
   });
 
-  if (!allowed)
+  if (!allowed) {
     return res.status(403).json({ message: "Media access forbidden" });
+  }
 
-  const filePath = path.resolve("uploads", filename);
-  if (!fs.existsSync(filePath))
-    return res.status(404).json({ message: "File not found" });
+  // key приходит url-encoded
+  const Key = decodeURIComponent(key);
 
-  return res.sendFile(filePath);
+  try {
+    const s3 = makeS3Client();
+
+    const url = await getSignedUrl(
+      s3,
+      new GetObjectCommand({
+        Bucket: process.env.BUCKET,
+        Key,
+      }),
+      { expiresIn: 60 * 10 }, // 10 mins
+    );
+
+    return res.redirect(url);
+  } catch (e) {
+    console.error("S3 media error:", e);
+    return res.status(404).json({ message: "File not found in bucket" });
+  }
 });
 
 module.exports = router;

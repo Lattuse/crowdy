@@ -56,7 +56,6 @@ export default function CreatorPage() {
 
   const selectedTierObj = tiers.find((t) => t.name === selectedTier);
 
-
   return (
     <div className="space-y-6">
       {/* Creator header */}
@@ -157,21 +156,13 @@ export default function CreatorPage() {
 
             <div className="whitespace-pre-wrap text-gray-800">{p.body}</div>
 
-            {p.images?.length > 0 && (
-              <div className="grid md:grid-cols-3 gap-3">
-                {p.images.map((url, idx) => (
-                  <Media key={idx} url={url} type="image" />
-                ))}
-              </div>
-            )}
+            {p.images?.map((url, idx) => (
+              <Media key={idx} url={url} type="image" />
+            ))}
 
-            {p.videos?.length > 0 && (
-              <div className="grid md:grid-cols-2 gap-3">
-                {p.videos.map((url, idx) => (
-                  <Media key={idx} url={url} type="video" />
-                ))}
-              </div>
-            )}
+            {p.videos?.map((url, idx) => (
+              <Media key={idx} url={url} type="video" />
+            ))}
           </div>
         ))}
 

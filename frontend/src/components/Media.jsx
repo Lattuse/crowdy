@@ -1,36 +1,50 @@
-import { useEffect, useState } from "react";
-import { http } from "../api/http";
+import { useState } from "react";
 
 export default function Media({ url, type }) {
-  const [src, setSrc] = useState(null);
-  const [err, setErr] = useState(null);
+  const [failed, setFailed] = useState(false);
 
-  useEffect(() => {
-    let objectUrl = null;
+  if (!url) return null;
 
-    async function load() {
-      try {
-        const res = await http.get(url, { responseType: "blob" });
-        objectUrl = URL.createObjectURL(res.data);
-        setSrc(objectUrl);
-      } catch (e) {
-        setErr("Locked / not доступно");
-      }
-    }
+  const Locked = () => (
+    <div className="w-full aspect-video rounded border bg-gray-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="text-sm font-semibold">Locked media</div>
+        <div className="text-xs text-gray-500 mt-1">
+          Subscribe to unlock
+        </div>
+      </div>
+    </div>
+  );
 
-    load();
+  if (failed) return <Locked />;
 
-    return () => {
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
-    };
-  }, [url]);
-
-  if (err) return <div className="text-sm text-red-600">{err}</div>;
-  if (!src) return <div className="text-sm text-gray-500">Loading media...</div>;
-
-  if (type === "video") {
-    return <video controls className="w-full rounded" src={src} />;
+  // IMAGE
+  if (type === "image") {
+    return (
+      <img
+        src={url}
+        alt="post media"
+        className="w-full rounded border object-cover"
+        onError={() => setFailed(true)}
+        loading="lazy"
+      />
+    );
   }
 
-  return <img className="w-full rounded" src={src} alt="media" />;
+  // VIDEO
+  if (type === "video") {
+    return (
+      <video
+        className="w-full rounded border"
+        controls
+        preload="metadata"
+        onError={() => setFailed(true)}
+      >
+        <source src={url} />
+        {/* эт если браузер не поддерживает */}
+      </video>
+    );
+  }
+
+  return null;
 }

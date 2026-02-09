@@ -1,11 +1,18 @@
 const mongoose = require("mongoose");
+const crypto = require("crypto");
+const { PutObjectCommand } = require("@aws-sdk/client-s3");
+const { makeS3Client } = require("../utils/s3");
+
 const Post = require("../models/Post");
 const Tier = require("../models/Tier");
 const Campaign = require("../models/Campaign");
 const User = require("../models/User");
 const { canUserViewPost } = require("../utils/postAccess");
 
-// CREATE post (creator only)
+const crypto = require("crypto");
+const { PutObjectCommand } = require("@aws-sdk/client-s3");
+const { makeS3Client } = require("../utils/s3");
+
 async function createPost(req, res) {
   const creatorId = req.user.userId;
   const { title, body, minTierName, campaignId, isLockedUntilSuccess } =
@@ -19,24 +26,56 @@ async function createPost(req, res) {
 
   // проверим, что tier существует у этого creator'а
   const tier = await Tier.findOne({ creatorId, name: minTierName });
-  if (!tier)
+  if (!tier) {
     return res
       .status(400)
       .json({ message: "minTierName does not exist for this creator" });
+  }
 
   // если указали campaignId — проверим что кампания принадлежит creator'у
   if (campaignId) {
     const c = await Campaign.findOne({ _id: campaignId, creatorId });
-    if (!c)
+    if (!c) {
       return res
         .status(400)
         .json({ message: "campaignId not found or not your campaign" });
+    }
   }
 
-  const imageFiles = req.files && req.files.images ? req.files.images : [];
-  const videoFiles = req.files && req.files.videos ? req.files.videos : [];
+  // S3 helpers
+  function keyFor(file) {
+    const ext = (file.originalname.split(".").pop() || "bin").toLowerCase();
+    return `uploads/${Date.now()}-${crypto.randomBytes(8).toString("hex")}.${ext}`;
+  }
 
-  // 1) создаём пост без медиа
+  async function uploadFileToS3(file) {
+    const s3 = makeS3Client();
+    const Key = keyFor(file);
+
+    await s3.send(
+      new PutObjectCommand({
+        Bucket: process.env.BUCKET,
+        Key,
+        Body: file.buffer,
+        ContentType: file.mimetype,
+      }),
+    );
+
+    return Key; // строка
+  }
+
+  // 1) грузим медиа в bucket, получаем Keys
+  const imageKeys = [];
+  const videoKeys = [];
+
+  if (req.files?.images) {
+    for (const f of req.files.images) imageKeys.push(await uploadFileToS3(f));
+  }
+  if (req.files?.videos) {
+    for (const f of req.files.videos) videoKeys.push(await uploadFileToS3(f));
+  }
+
+  // 2) создаём пост
   const post = await Post.create({
     creatorId,
     title,
@@ -48,11 +87,15 @@ async function createPost(req, res) {
     videos: [],
   });
 
-  // 2) формируем защищённые ссылки
-  const images = imageFiles.map((f) => `/media/${post._id}/${f.filename}`);
-  const videos = videoFiles.map((f) => `/media/${post._id}/${f.filename}`);
+  // 3) формируем защищённые ссылки (ВАЖНО: URL-encode key)
+  const images = imageKeys.map(
+    (key) => `/media/${post._id}/${encodeURIComponent(key)}`,
+  );
+  const videos = videoKeys.map(
+    (key) => `/media/${post._id}/${encodeURIComponent(key)}`,
+  );
 
-  // 3) обновляем пост: $set
+  // 4) обновляем пост
   const updated = await Post.findByIdAndUpdate(
     post._id,
     { $set: { images, videos } },
@@ -61,6 +104,8 @@ async function createPost(req, res) {
 
   return res.status(201).json(updated);
 }
+
+module.exports = { createPost };
 
 // UPDATE post (creator only)
 async function updatePost(req, res) {

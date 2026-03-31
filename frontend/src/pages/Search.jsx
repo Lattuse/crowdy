@@ -35,20 +35,20 @@ export default function Search() {
 
   return (
     <div className="space-y-4">
-      <div className="bg-white p-6 rounded shadow">
+      <div className="card p-6">
         <h1 className="text-2xl font-bold">Search profiles</h1>
-        <div className="text-sm text-gray-600">Find users by name</div>
+        <div className="text-sm text-slate-400">Find users by name</div>
 
         <div className="mt-4 grid md:grid-cols-3 gap-3">
           <input
-            className="border p-2 rounded md:col-span-2"
+            className="input-field md:col-span-2"
             placeholder="Type name (min 2 letters)"
             value={q}
             onChange={(e) => setQ(e.target.value)}
           />
 
           <select
-            className="border p-2 rounded"
+            className="select-field"
             value={role}
             onChange={(e) => setRole(e.target.value)}
           >
@@ -58,35 +58,35 @@ export default function Search() {
           </select>
         </div>
 
-        <div className="mt-2 text-sm text-gray-500">{info}</div>
+        <div className="mt-2 text-sm text-slate-400">{info}</div>
       </div>
 
-      <div className="bg-white p-6 rounded shadow">
+      <div className="card p-6">
         <div className="font-bold mb-3">Results</div>
 
         {data.length === 0 ? (
-          <div className="text-sm text-gray-500">No users to show.</div>
+          <div className="text-sm text-slate-400">No users to show.</div>
         ) : (
           <div className="grid md:grid-cols-2 gap-3">
             {data.map((u) => (
               <div
                 key={u._id}
-                className="border rounded p-4 flex items-center justify-between"
+                className="panel flex items-center justify-between"
               >
                 <div>
                   <div className="font-semibold">{u.name}</div>
-                  <div className="text-xs text-gray-500">{u.role}</div>
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-slate-400">{u.role}</div>
+                  <div className="text-xs text-slate-400">
                     {u.role} • id: {String(u._id).slice(-6)}
                   </div>
                 </div>
 
                 {u.role === "creator" ? (
-                  <Link className="underline text-sm" to={`/creator/${u._id}`}>
+                  <Link className="underline text-crowdy-accent hover:text-crowdy-accent2 text-sm" to={`/creator/${u._id}`}>
                     Open
                   </Link>
                 ) : (
-                  <Link className="underline text-sm" to={`/user/${u._id}`}>
+                  <Link className="underline text-crowdy-accent hover:text-crowdy-accent2 text-sm" to={`/user/${u._id}`}>
                     Open
                   </Link>
                 )}

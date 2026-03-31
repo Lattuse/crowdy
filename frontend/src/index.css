@@ -1,3 +1,100 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-charcoal-900 text-slate-100 antialiased min-h-screen;
+  }
+
+  a {
+    @apply text-crowdy-accent hover:text-crowdy-accent2 transition-colors duration-500 ease-out;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-charcoal-800/95 border border-slate-800 rounded-3xl shadow-glow transition-all duration-700 ease-out transform;
+  }
+
+  .card:hover {
+    @apply -translate-y-1 border-crowdy-accent2 shadow-[0_30px_90px_rgba(56,189,248,0.18)];
+  }
+
+  .panel {
+    @apply bg-charcoal-900/90 border border-slate-700 rounded-3xl p-4 transition-all duration-700 ease-out transform;
+  }
+
+  .panel:hover {
+    @apply -translate-y-0.5 shadow-[0_20px_70px_rgba(124,58,237,0.14)];
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center rounded-2xl px-4 py-2 font-semibold transform transition-all duration-700 ease-out hover:-translate-y-0.5;
+  }
+
+  .btn-primary {
+    @apply bg-crowdy-accent text-white hover:bg-crowdy-accent2 hover:shadow-[0_18px_35px_rgba(124,58,237,0.18)];
+  }
+
+  .btn-secondary {
+    @apply border border-slate-700 text-slate-200 hover:border-crowdy-accent2 hover:text-white hover:shadow-[0_12px_24px_rgba(59,130,246,0.12)];
+  }
+
+  .btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700 hover:shadow-[0_12px_24px_rgba(220,38,38,0.18)];
+  }
+
+  .btn-muted {
+    @apply border border-slate-700 text-slate-400 hover:border-slate-500 hover:text-white hover:shadow-[0_12px_24px_rgba(148,163,184,0.14)];
+  }
+
+  .input-field,
+  .select-field,
+  .textarea-field {
+    @apply w-full bg-charcoal-900 border border-slate-700 text-slate-100 p-3 rounded-2xl outline-none transition-colors duration-500 ease-out focus:border-crowdy-accent2 focus:ring-2 focus:ring-crowdy-accent2/30;
+  }
+
+  .label-muted {
+    @apply block text-xs text-slate-400 mb-1 transition-colors duration-500 ease-out;
+  }
+
+  .text-muted {
+    @apply text-slate-400 transition-colors duration-500 ease-out;
+  }
+
+  .glass {
+    @apply bg-white/5 border border-white/10 backdrop-blur-xl transition-all duration-700 ease-out;
+  }
+
+  .chart-track {
+    @apply bg-slate-800 rounded-full overflow-hidden h-2;
+  }
+
+  .chart-bar {
+    @apply h-2 rounded-full bg-gradient-to-r from-crowdy-accent2 via-crowdy-accent to-crowdy-accent3 transition-all duration-700 ease-out;
+  }
+
+  .bar-label {
+    @apply flex items-center justify-between text-sm text-slate-400;
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 0.9s ease-out both;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

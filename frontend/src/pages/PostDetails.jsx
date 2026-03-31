@@ -18,10 +18,10 @@ export default function PostDetails() {
   if (!post) return <div>Loading...</div>;
 
   return (
-    <div className="bg-white p-6 rounded shadow space-y-4">
+    <div className="card p-6 space-y-4">
       <div>
         <h1 className="text-2xl font-bold">{post.title}</h1>
-        <div className="text-xs text-gray-500">minTier: {post.minTierName}</div>
+        <div className="text-xs text-slate-400">minTier: {post.minTierName}</div>
       </div>
 
       <div className="whitespace-pre-wrap">{post.body}</div>

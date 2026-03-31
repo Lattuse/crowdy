@@ -12,7 +12,7 @@ function addDays(date, days) {
   return new Date(date.getTime() + days * MS_DAY);
 }
 
-// Вспомогательное: обновить embedded подписку пользователя так,
+// обновляем embedded подписку пользователя так,
 // чтобы по creator был только 1 активный элемент (как “активная подписка сейчас”)
 async function setEmbeddedActiveSubscription({
   session,

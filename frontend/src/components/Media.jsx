@@ -6,10 +6,10 @@ export default function Media({ url, type }) {
   if (!url) return null;
 
   const Locked = () => (
-    <div className="w-full aspect-video rounded border bg-gray-50 flex items-center justify-center">
+    <div className="w-full aspect-video rounded border border-slate-700 bg-charcoal-900/70 flex items-center justify-center">
       <div className="text-center">
         <div className="text-sm font-semibold">Locked media</div>
-        <div className="text-xs text-gray-500 mt-1">
+        <div className="text-xs text-slate-400 mt-1">
           Subscribe to unlock
         </div>
       </div>
@@ -24,7 +24,7 @@ export default function Media({ url, type }) {
       <img
         src={url}
         alt="post media"
-        className="w-full rounded border object-cover"
+        className="w-full rounded border border-slate-700 object-cover"
         onError={() => setFailed(true)}
         loading="lazy"
       />
@@ -35,7 +35,7 @@ export default function Media({ url, type }) {
   if (type === "video") {
     return (
       <video
-        className="w-full rounded border"
+        className="w-full rounded border border-slate-700"
         controls
         preload="metadata"
         onError={() => setFailed(true)}

@@ -25,12 +25,12 @@ function TierForm({ initial, onSave, onCancel }) {
 
   return (
     <form onSubmit={submit} className="space-y-3">
-      {err && <div className="text-sm text-red-600">{err}</div>}
+      {err && <div className="text-sm text-red-300">{err}</div>}
 
       <div>
-        <div className="text-xs text-gray-500 mb-1">Tier name</div>
+        <div className="label-muted">Tier name</div>
         <input
-          className="w-full border p-2 rounded"
+          className="input-field"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Bronze / Silver / Gold"
@@ -38,19 +38,19 @@ function TierForm({ initial, onSave, onCancel }) {
       </div>
 
       <div>
-        <div className="text-xs text-gray-500 mb-1">Price (per 30 days)</div>
+        <div className="label-muted">Price (per 30 days)</div>
         <input
           type="number"
-          className="w-full border p-2 rounded"
+          className="input-field"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
       </div>
 
       <div>
-        <div className="text-xs text-gray-500 mb-1">Perks (one per line)</div>
+        <div className="label-muted">Perks (one per line)</div>
         <textarea
-          className="w-full border p-2 rounded h-28"
+          className="textarea-field h-28"
           value={perksText}
           onChange={(e) => setPerksText(e.target.value)}
           placeholder={"Basic access\nEarly posts\nBehind the scenes"}
@@ -58,11 +58,11 @@ function TierForm({ initial, onSave, onCancel }) {
       </div>
 
       <div className="flex gap-2">
-        <button className="px-4 py-2 bg-black text-white rounded">
+        <button className="btn btn-primary">
           Save
         </button>
         {onCancel && (
-          <button type="button" onClick={onCancel} className="px-4 py-2 border rounded">
+          <button type="button" onClick={onCancel} className="btn btn-secondary">
             Cancel
           </button>
         )}
@@ -139,15 +139,15 @@ export default function ManageTiers() {
   }
 
   if (user?.role !== "creator") {
-    return <div className="bg-white p-6 rounded shadow">Only creators can manage tiers.</div>;
+    return <div className="card p-6">Only creators can manage tiers.</div>;
   }
 
   return (
     <div className="space-y-6">
-      <div className="bg-white p-6 rounded shadow flex items-start justify-between gap-4">
+      <div className="card p-6 flex items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold">Manage tiers</h1>
-          <div className="text-sm text-gray-600">
+          <div className="text-sm text-slate-400">
             Create / edit / delete subscription levels
           </div>
         </div>
@@ -155,7 +155,7 @@ export default function ManageTiers() {
         {!creating && !editing && (
           <button
             onClick={() => setCreating(true)}
-            className="px-4 py-2 bg-black text-white rounded"
+            className="btn btn-primary"
           >
             + New tier
           </button>
@@ -163,13 +163,13 @@ export default function ManageTiers() {
       </div>
 
       {(msg || err) && (
-        <div className={`p-3 rounded ${err ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
+        <div className={`p-3 rounded ${err ? "bg-red-900/60 text-red-200" : "bg-emerald-900/50 text-emerald-200"}`}>
           {err || msg}
         </div>
       )}
 
       {creating && (
-        <div className="bg-white p-6 rounded shadow">
+        <div className="card p-6">
           <div className="font-bold mb-3">Create tier</div>
           <TierForm
             onSave={createTier}
@@ -179,7 +179,7 @@ export default function ManageTiers() {
       )}
 
       {editing && (
-        <div className="bg-white p-6 rounded shadow">
+        <div className="card p-6">
           <div className="font-bold mb-3">Edit tier</div>
           <TierForm
             initial={editing}
@@ -189,33 +189,33 @@ export default function ManageTiers() {
         </div>
       )}
 
-      <div className="bg-white p-6 rounded shadow">
+      <div className="card p-6">
         <div className="font-bold mb-3">Your tiers</div>
 
         {loading ? (
           <div>Loading...</div>
         ) : tiers.length === 0 ? (
-          <div className="text-sm text-gray-500">No tiers yet. Create your first tier.</div>
+          <div className="text-sm text-slate-400">No tiers yet. Create your first tier.</div>
         ) : (
           <div className="grid md:grid-cols-2 gap-3">
             {tiers.map(t => (
-              <div key={t._id} className="border rounded p-4">
+              <div key={t._id} className="panel">
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="font-bold">{t.name}</div>
-                    <div className="text-sm text-gray-600">{t.price} / 30 days</div>
+                    <div className="text-sm text-slate-400">{t.price} / 30 days</div>
                   </div>
 
                   <div className="flex gap-2">
-                    <button
+                            <button
                       onClick={() => { setEditing(t); setCreating(false); }}
-                      className="px-3 py-1 border rounded text-sm"
+                      className="btn btn-secondary text-sm"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => deleteTier(t._id)}
-                      className="px-3 py-1 border rounded text-sm"
+                      className="btn btn-secondary text-sm"
                     >
                       Delete
                     </button>
@@ -223,7 +223,7 @@ export default function ManageTiers() {
                 </div>
 
                 {t.perks?.length > 0 && (
-                  <ul className="mt-3 text-sm text-gray-600 list-disc ml-5">
+                  <ul className="mt-3 text-sm text-slate-400 list-disc ml-5">
                     {t.perks.map((p, i) => <li key={i}>{p}</li>)}
                   </ul>
                 )}

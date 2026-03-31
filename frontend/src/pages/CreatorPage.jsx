@@ -59,20 +59,20 @@ export default function CreatorPage() {
   return (
     <div className="space-y-6">
       {/* Creator header */}
-      <div className="bg-white p-5 rounded shadow">
+      <div className="card p-5">
         <h1 className="text-2xl font-bold">Creator profile</h1>
-        <div className="text-sm text-gray-600 mt-1">ID: {id}</div>
+        <div className="text-sm text-slate-400 mt-1">ID: {id}</div>
       </div>
 
       {/* Tiers */}
-      <div className="bg-white p-5 rounded shadow">
+      <div className="card p-5">
         <h2 className="font-bold mb-3">Tiers</h2>
         <div className="grid md:grid-cols-3 gap-3">
           {tiers.map((t) => (
-            <div key={t._id} className="border rounded p-3">
+            <div key={t._id} className="panel">
               <div className="font-bold">{t.name}</div>
               <div className="text-sm">{t.price} / month</div>
-              <ul className="mt-2 text-sm text-gray-600 list-disc ml-4">
+              <ul className="mt-2 text-sm text-slate-400 list-disc ml-4">
                 {(t.perks || []).map((p, i) => (
                   <li key={i}>{p}</li>
                 ))}
@@ -80,21 +80,21 @@ export default function CreatorPage() {
             </div>
           ))}
           {tiers.length === 0 && (
-            <div className="text-sm text-gray-500">No tiers yet.</div>
+            <div className="text-sm text-slate-400">No tiers yet.</div>
           )}
         </div>
       </div>
 
       {/* Subscribe block (not for self) */}
       {user && myId !== id && tiers.length > 0 && (
-        <div className="bg-white p-5 rounded shadow">
+        <div className="card p-5">
           <h2 className="font-bold mb-3">Subscribe</h2>
 
           <div className="grid md:grid-cols-2 gap-3">
             <div>
-              <div className="text-xs text-gray-500 mb-1">Tier</div>
+              <div className="label-muted">Tier</div>
               <select
-                className="w-full border p-2 rounded"
+                className="select-field"
                 value={selectedTier}
                 onChange={(e) => {
                   setSelectedTier(e.target.value);
@@ -109,16 +109,16 @@ export default function CreatorPage() {
                 ))}
               </select>
 
-              <div className="text-xs text-gray-600 mt-1">
+              <div className="text-xs text-slate-400 mt-1">
                 Price: <b>{selectedTierObj?.price ?? "—"}</b>
               </div>
             </div>
 
             <div>
-              <div className="text-xs text-gray-500 mb-1">Amount</div>
+              <div className="label-muted">Amount</div>
               <input
                 type="number"
-                className="w-full border p-2 rounded"
+                className="input-field"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
               />
@@ -141,20 +141,20 @@ export default function CreatorPage() {
         <h2 className="text-xl font-bold">Posts</h2>
 
         {posts.map((p) => (
-          <div key={p._id} className="bg-white p-5 rounded shadow space-y-3">
+          <div key={p._id} className="card p-5 space-y-3">
             <div className="flex justify-between items-center">
               <Link
                 to={`/post/${p._id}`}
-                className="font-bold text-lg hover:underline"
+                className="font-bold text-lg text-crowdy-accent hover:text-crowdy-accent2"
               >
                 {p.title}
               </Link>
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-slate-400">
                 minTier: {p.minTierName}
               </div>
             </div>
 
-            <div className="whitespace-pre-wrap text-gray-800">{p.body}</div>
+            <div className="whitespace-pre-wrap text-slate-100">{p.body}</div>
 
             {p.images?.map((url, idx) => (
               <Media key={idx} url={url} type="image" />
@@ -167,7 +167,7 @@ export default function CreatorPage() {
         ))}
 
         {posts.length === 0 && (
-          <div className="text-sm text-gray-500">No posts yet.</div>
+          <div className="text-sm text-slate-400">No posts yet.</div>
         )}
       </div>
     </div>

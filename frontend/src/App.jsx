@@ -19,7 +19,7 @@ import MySubscriptions from "./pages/MySubscriptions";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-charcoal-900 text-slate-100">
       <Navbar />
 
       <div className="max-w-6xl mx-auto p-4">

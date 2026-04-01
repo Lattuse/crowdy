@@ -17,13 +17,13 @@ export default function UserProfile() {
   if (!u) return <div>Loading...</div>;
 
   return (
-    <div className="bg-white p-6 rounded shadow">
+    <div className="card p-6">
       <h1 className="text-2xl font-bold">{u.name}</h1>
-      <div className="text-sm text-gray-600">Role: {u.role}</div>
+      <div className="text-sm text-slate-400">Role: {u.role}</div>
 
       {u.role === "creator" && (
         <div className="mt-3">
-          <Link className="underline" to={`/creator/${u._id}`}>Go to creator page</Link>
+          <Link className="underline text-crowdy-accent hover:text-crowdy-accent2" to={`/creator/${u._id}`}>Go to creator page</Link>
         </div>
       )}
     </div>

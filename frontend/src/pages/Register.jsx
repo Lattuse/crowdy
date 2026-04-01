@@ -22,17 +22,30 @@ export default function Register() {
   }
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded shadow">
-      <h1 className="text-xl font-bold mb-4">Register</h1>
-      {err && <div className="mb-3 text-red-600 text-sm">{err}</div>}
-      <form onSubmit={onSubmit} className="space-y-3">
-        <input className="w-full border p-2 rounded" placeholder="name"
-          value={name} onChange={(e)=>setName(e.target.value)} />
-        <input className="w-full border p-2 rounded" placeholder="email"
-          value={email} onChange={(e)=>setEmail(e.target.value)} />
-        <input className="w-full border p-2 rounded" placeholder="password" type="password"
-          value={password} onChange={(e)=>setPassword(e.target.value)} />
-        <button className="w-full bg-black text-white p-2 rounded">Create account</button>
+    <div className="max-w-md mx-auto card p-6 rounded-3xl shadow-glow">
+      <h1 className="text-2xl font-bold mb-4 text-slate-100">Register</h1>
+      {err && <div className="mb-3 text-rose-400 text-sm">{err}</div>}
+      <form onSubmit={onSubmit} className="space-y-4">
+        <input
+          className="w-full bg-charcoal-900 border border-slate-700 text-slate-100 placeholder-slate-500 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-crowdy-accent2"
+          placeholder="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          className="w-full bg-charcoal-900 border border-slate-700 text-slate-100 placeholder-slate-500 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-crowdy-accent2"
+          placeholder="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          className="w-full bg-charcoal-900 border border-slate-700 text-slate-100 placeholder-slate-500 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-crowdy-accent2"
+          placeholder="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button className="w-full bg-crowdy-accent2 text-white font-semibold p-3 rounded-xl hover:bg-crowdy-accent hover:text-white focus:outline-none focus:ring-2 focus:ring-crowdy-accent3 transition">Create account</button>
       </form>
     </div>
   );

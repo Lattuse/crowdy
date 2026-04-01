@@ -61,31 +61,31 @@ export default function CampaignDetails() {
   if (!c) return <div>Loading...</div>;
 
   return (
-    <div className="bg-white p-6 rounded shadow">
-      <div className="flex justify-between items-start gap-4">
-        <div>
+    <div className="card p-6">
+      <div className="flex flex-col lg:flex-row justify-between items-start gap-4">
+        <div className="flex-1">
           <h1 className="text-2xl font-bold">{c.title}</h1>
-          <div className="text-gray-600">{c.description}</div>
-          <div className="mt-2 text-sm">
+          <div className="text-slate-300">{c.description}</div>
+          <div className="mt-2 text-sm text-slate-400">
             {c.currentAmount} / {c.targetAmount} • <b>{c.status}</b>
           </div>
 
           <div className="mt-3">
-            <Link className="underline text-sm" to={`/creator/${c.creatorId}`}>
+            <Link className="underline text-crowdy-accent hover:text-crowdy-accent2 text-sm" to={`/creator/${c.creatorId}`}>
               Go to creator page
             </Link>
           </div>
         </div>
 
-        <div className="w-full max-w-sm border rounded p-4">
+        <div className="w-full max-w-sm panel">
           <div className="font-bold mb-2">Support / Subscribe</div>
           {!user ? (
-            <div className="text-sm text-gray-600">Login to subscribe</div>
+            <div className="text-sm text-slate-400">Login to subscribe</div>
           ) : (
             <>
-              <label className="text-xs text-gray-600">Type</label>
+              <label className="label-muted">Type</label>
               <select
-                className="border p-2 rounded w-full mb-2"
+                className="select-field mb-2"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
               >
@@ -93,16 +93,16 @@ export default function CampaignDetails() {
                 <option value="regular">regular (released)</option>
               </select>
 
-              <label className="text-xs text-gray-600">Tier</label>
+              <label className="label-muted">Tier</label>
 
               {tiers.length === 0 ? (
-                <div className="text-sm text-gray-500 mb-2">
+                <div className="text-sm text-slate-400 mb-2">
                   Creator has no tiers yet.
                 </div>
               ) : (
                 <>
                   <select
-                    className="border p-2 rounded w-full mb-2"
+                    className="select-field mb-2"
                     value={tierName}
                     onChange={(e) => {
                       const name = e.target.value;
@@ -118,7 +118,7 @@ export default function CampaignDetails() {
                     ))}
                   </select>
 
-                  <div className="text-xs text-gray-600 mb-2">
+                  <div className="label-muted mb-2">
                     Price:{" "}
                     <b>
                       {tiers.find((t) => t.name === tierName)?.price ?? "—"}
@@ -127,24 +127,24 @@ export default function CampaignDetails() {
                 </>
               )}
 
-              <label className="text-xs text-gray-600">Amount</label>
+              <label className="label-muted">Amount</label>
 
               <input
                 type="number"
                 min={minPrice}
-                className="border p-2 rounded w-full mb-3"
+                className="input-field mb-3"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
               />
 
               <button
                 onClick={buy}
-                className="w-full bg-black text-white p-2 rounded"
+                className="btn btn-primary w-full"
               >
                 Subscribe
               </button>
 
-              {msg && <div className="mt-2 text-sm">{msg}</div>}
+              {msg && <div className="mt-2 text-sm text-slate-300">{msg}</div>}
             </>
           )}
         </div>

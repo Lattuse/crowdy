@@ -68,27 +68,32 @@ export default function CreatePost() {
   }
 
   if (user?.role !== "creator") {
-    return <div className="bg-white p-6 rounded shadow">Only creators can create posts.</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4 py-10">
+        <div className="w-full max-w-2xl card p-6">Only creators can create posts.</div>
+      </div>
+    );
   }
 
   return (
-    <div className="max-w-2xl bg-white p-6 rounded shadow">
-      <h1 className="text-xl font-bold mb-4">Create post</h1>
+    <div className="min-h-screen flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-2xl card p-6">
+        <h1 className="text-xl font-bold mb-4">Create post</h1>
 
-      {err && <div className="mb-3 text-red-600 text-sm">{err}</div>}
-      {ok && <div className="mb-3 text-green-700 text-sm">{ok}</div>}
+      {err && <div className="mb-3 text-red-400 text-sm">{err}</div>}
+      {ok && <div className="mb-3 text-emerald-300 text-sm">{ok}</div>}
 
       <form onSubmit={submit} className="space-y-3">
-        <input className="w-full border p-2 rounded" placeholder="title"
+        <input className="input-field" placeholder="title"
           value={title} onChange={(e)=>setTitle(e.target.value)} />
 
-        <textarea className="w-full border p-2 rounded h-32" placeholder="body"
+        <textarea className="textarea-field h-32" placeholder="body"
           value={body} onChange={(e)=>setBody(e.target.value)} />
 
         <div className="grid md:grid-cols-2 gap-3">
           <div>
-            <div className="text-xs text-gray-500 mb-1">Minimum tier</div>
-            <select className="w-full border p-2 rounded" value={minTierName}
+            <div className="label-muted">Minimum tier</div>
+            <select className="select-field" value={minTierName}
               onChange={(e)=>setMinTierName(e.target.value)}>
               {tiers.map(t => (
                 <option key={t._id} value={t.name}>{t.name} ({t.price})</option>
@@ -97,8 +102,8 @@ export default function CreatePost() {
           </div>
 
           <div>
-            <div className="text-xs text-gray-500 mb-1">Campaign (optional)</div>
-            <select className="w-full border p-2 rounded" value={campaignId}
+            <div className="label-muted">Campaign (optional)</div>
+            <select className="select-field" value={campaignId}
               onChange={(e)=>setCampaignId(e.target.value)}>
               <option value="">— none —</option>
               {campaigns.map(c => (
@@ -116,28 +121,29 @@ export default function CreatePost() {
 
         <div className="grid md:grid-cols-2 gap-3">
           <div>
-            <div className="text-xs text-gray-500 mb-1">Images (multiple)</div>
+            <div className="label-muted">Images (multiple)</div>
             <input type="file" multiple accept="image/*"
               onChange={(e)=>setImages([...e.target.files])} />
             {images.length > 0 && (
-              <div className="text-xs text-gray-600 mt-1">{images.length} selected</div>
+              <div className="text-xs text-slate-400 mt-1">{images.length} selected</div>
             )}
           </div>
           <div>
-            <div className="text-xs text-gray-500 mb-1">Videos (multiple)</div>
+            <div className="label-muted">Videos (multiple)</div>
             <input type="file" multiple accept="video/*"
               onChange={(e)=>setVideos([...e.target.files])} />
             {videos.length > 0 && (
-              <div className="text-xs text-gray-600 mt-1">{videos.length} selected</div>
+              <div className="text-xs text-slate-400 mt-1">{videos.length} selected</div>
             )}
           </div>
         </div>
 
-        <button className="w-full bg-black text-white p-2 rounded">
+        <button className="btn btn-primary w-full">
           Publish
         </button>
       </form>
     </div>
+  </div>
   );
 }
 

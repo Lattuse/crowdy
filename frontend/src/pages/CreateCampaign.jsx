@@ -35,44 +35,50 @@ export default function CreateCampaign() {
   }
 
   if (user?.role !== "creator") {
-    return <div className="bg-white p-6 rounded shadow">Only creators can create campaigns.</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4 py-10">
+        <div className="w-full max-w-xl card p-6">Only creators can create campaigns.</div>
+      </div>
+    );
   }
 
   return (
-    <div className="max-w-xl bg-white p-6 rounded shadow">
-      <h1 className="text-xl font-bold mb-4">Create campaign</h1>
+    <div className="min-h-screen flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-xl card p-6">
+        <h1 className="text-xl font-bold mb-4">Create campaign</h1>
 
-      {err && <div className="mb-3 text-red-600 text-sm">{err}</div>}
-      {ok && <div className="mb-3 text-green-700 text-sm">{ok}</div>}
+      {err && <div className="mb-3 text-red-400 text-sm">{err}</div>}
+      {ok && <div className="mb-3 text-emerald-300 text-sm">{ok}</div>}
 
       <form onSubmit={submit} className="space-y-3">
-        <input className="w-full border p-2 rounded" placeholder="title"
+        <input className="input-field" placeholder="title"
           value={title} onChange={(e)=>setTitle(e.target.value)} />
 
-        <textarea className="w-full border p-2 rounded" placeholder="description"
+        <textarea className="textarea-field" placeholder="description"
           value={description} onChange={(e)=>setDescription(e.target.value)} />
 
-        <input className="w-full border p-2 rounded" type="number" placeholder="targetAmount"
+        <input className="input-field" type="number" placeholder="targetAmount"
           value={targetAmount} onChange={(e)=>setTargetAmount(e.target.value)} />
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <div className="text-xs text-gray-500 mb-1">Start date</div>
-            <input className="w-full border p-2 rounded" type="date"
+            <div className="label-muted">Start date</div>
+            <input className="input-field" type="date"
               value={startDate} onChange={(e)=>setStartDate(e.target.value)} />
           </div>
           <div>
-            <div className="text-xs text-gray-500 mb-1">End date</div>
-            <input className="w-full border p-2 rounded" type="date"
+            <div className="label-muted">End date</div>
+            <input className="input-field" type="date"
               value={endDate} onChange={(e)=>setEndDate(e.target.value)} />
           </div>
         </div>
 
-        <button className="w-full bg-black text-white p-2 rounded">
+        <button className="btn btn-primary w-full">
           Create
         </button>
       </form>
     </div>
+  </div>
   );
 }
 

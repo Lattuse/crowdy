@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function Badge({ children }) {
   return (
-    <span className="text-xs px-2 py-1 rounded bg-gray-100">{children}</span>
+    <span className="text-xs px-2 py-1 rounded bg-slate-700 text-slate-100">{children}</span>
   );
 }
 
@@ -33,43 +33,43 @@ export default function MySubscriptions() {
     load();
   }, []);
 
-  if (err) return <div className="text-red-600">{err}</div>;
+  if (err) return <div className="text-red-300">{err}</div>;
 
   return (
     <div className="space-y-4">
-      <div className="bg-white p-6 rounded shadow">
+      <div className="card p-6">
         <h1 className="text-2xl font-bold">My subscriptions</h1>
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-slate-400">
           Regular + crowdfunding, including queued/paused statuses (if present)
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded shadow">
+      <div className="card p-6">
         {items.length === 0 ? (
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-slate-400">
             You have no subscriptions yet.
           </div>
         ) : (
           <div className="space-y-3">
             {items.map((s) => (
-              <div key={s._id} className="border rounded p-4">
+              <div key={s._id} className="panel">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <div className="font-semibold">
                       {s.creator?.name || "Unknown creator"} — {s.tierName}
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-slate-400">
                       {s.type} • status: <b>{s.status}</b>
                     </div>
 
                     {s.campaign && (
-                      <div className="text-xs text-gray-500 mt-1">
+                      <div className="text-xs text-slate-400 mt-1">
                         Campaign: {s.campaign.title} • {s.campaign.status} •{" "}
                         {s.campaign.currentAmount}/{s.campaign.targetAmount}
                       </div>
                     )}
 
-                    <div className="text-xs text-gray-500 mt-1">
+                    <div className="text-xs text-slate-400 mt-1">
                       Start:{" "}
                       {s.startDate
                         ? new Date(s.startDate).toLocaleString()
@@ -80,7 +80,7 @@ export default function MySubscriptions() {
                     </div>
 
                     {s.resumeAt && (
-                      <div className="text-xs text-gray-500">
+                      <div className="text-xs text-slate-400">
                         Resume at: {new Date(s.resumeAt).toLocaleString()}
                       </div>
                     )}
@@ -110,7 +110,7 @@ export default function MySubscriptions() {
                     <br></br>
                     <button
                       onClick={() => cancel(s._id)}
-                      className="px-3 py-1 border rounded text-sm"
+                      className="btn btn-secondary text-sm"
                     >
                       Cancel
                     </button>

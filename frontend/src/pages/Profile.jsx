@@ -51,11 +51,11 @@ export default function Profile() {
 
   return (
     <div className="space-y-4">
-      <div className="bg-white p-6 rounded shadow">
+      <div className="card p-6">
         <h1 className="text-xl font-bold">My Profile</h1>
-        <div className="text-sm text-gray-600 mt-2">Name: {me.name}</div>
-        <div className="text-sm text-gray-600">Email: {me.email}</div>
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-slate-400 mt-2">Name: {me.name}</div>
+        <div className="text-sm text-slate-400">Email: {me.email}</div>
+        <div className="text-sm text-slate-400">
           Role: <b>{me.role}</b>
         </div>
 
@@ -72,17 +72,17 @@ export default function Profile() {
       </div>
 
       {me.role === "creator" && (
-        <div className="bg-white p-6 rounded shadow">
+        <div className="card p-6">
           <h2 className="font-bold mb-3">My posts</h2>
           <div className="space-y-2">
             {posts.map((p) => (
               <Link
                 key={p._id}
                 to={`/post/${p._id}`}
-                className="block border rounded p-3 hover:bg-gray-50"
+                className="panel block hover:bg-charcoal-800"
               >
                 <div className="font-semibold">{p.title}</div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-slate-400">
                   minTier: {p.minTierName}
                 </div>
 
@@ -90,14 +90,14 @@ export default function Profile() {
 
                 <button
                   onClick={() => deletePost(p._id)}
-                  className="px-3 py-1 rounded bg-red-600 text-white text-sm hover:bg-red-700"
+                  className="btn btn-danger text-sm"
                 >
                   Delete
                 </button>
               </Link>
             ))}
             {posts.length === 0 && (
-              <div className="text-sm text-gray-500">No posts yet.</div>
+              <div className="text-sm text-slate-400">No posts yet.</div>
             )}
           </div>
         </div>

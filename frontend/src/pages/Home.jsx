@@ -16,9 +16,13 @@ export default function Home() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">Campaigns</h1>
-        <select className="border p-2 rounded" value={status} onChange={(e)=>setStatus(e.target.value)}>
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+        <h1 className="text-2xl font-bold text-white">Campaigns</h1>
+        <select
+          className="border border-slate-700 bg-charcoal-900 text-slate-200 p-2 rounded"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
           <option value="active">active</option>
           <option value="successful">successful</option>
           <option value="failed">failed</option>
@@ -26,12 +30,18 @@ export default function Home() {
       </div>
 
       <div className="grid md:grid-cols-3 gap-4">
-        {data.map(c => (
-          <Link key={c._id} to={`/campaign/${c._id}`} className="bg-white p-4 rounded shadow hover:shadow-md">
-            <div className="font-bold">{c.title}</div>
-            <div className="text-sm text-gray-600 line-clamp-2">{c.description}</div>
-            <div className="mt-2 text-sm">
-              {c.currentAmount} / {c.targetAmount} • <span className="font-semibold">{c.status}</span>
+        {data.map((c, index) => (
+          <Link
+            key={c._id}
+            to={`/campaign/${c._id}`}
+            className="card p-4 transition hover:border-crowdy-accent hover:-translate-y-1 hover:shadow-[0_30px_90px_rgba(56,189,248,0.18)] animate-fade-up"
+            style={{ animationDelay: `${index * 80}ms` }}
+          >
+            <div className="font-bold text-white">{c.title}</div>
+            <div className="text-sm text-slate-300 line-clamp-2">{c.description}</div>
+            <div className="mt-2 text-sm text-slate-300">
+              {c.currentAmount} / {c.targetAmount} •{' '}
+              <span className="font-semibold text-crowdy-accent">{c.status}</span>
             </div>
           </Link>
         ))}

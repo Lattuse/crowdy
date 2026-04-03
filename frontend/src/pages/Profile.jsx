@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { http } from "../api/http";
 import { useAuth } from "../auth/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const myId = user?.id || user?._id;
 
   const [me, setMe] = useState(null);
@@ -29,7 +30,7 @@ export default function Profile() {
     try {
       const res = await http.patch("/users/me/role", { role: "creator" });
       localStorage.setItem("token", res.data.token);
-      window.location.reload();
+      navigate("/");
     } catch (e) {
       setMsg(e.response?.data?.message || "Failed");
     }

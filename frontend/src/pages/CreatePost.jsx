@@ -122,18 +122,59 @@ export default function CreatePost() {
         <div className="grid md:grid-cols-2 gap-3">
           <div>
             <div className="label-muted">Images (multiple)</div>
-            <input type="file" multiple accept="image/*"
-              onChange={(e)=>setImages([...e.target.files])} />
+            <input
+              id="image-upload"
+              type="file"
+              multiple
+              accept="image/*"
+              className="hidden"
+              onChange={(e)=>setImages(Array.from(e.target.files || []))}
+            />
+            <label htmlFor="image-upload" className="btn w-full justify-center border-2 border-dashed border-blue-400 text-blue-600 hover:bg-blue-50">
+              + Add images
+            </label>
             {images.length > 0 && (
-              <div className="text-xs text-slate-400 mt-1">{images.length} selected</div>
+              <div className="mt-2 text-xs text-slate-400">
+                {images.length} selected: {images.map((f,i)=>f.name).join(", ")}
+              </div>
+            )}
+            {images.length > 0 && (
+              <div className="mt-2 grid grid-cols-3 gap-2">
+                {images.slice(0, 6).map((file, idx) => {
+                  const src = URL.createObjectURL(file);
+                  return <img key={idx} src={src} alt={file.name} className="h-20 w-full object-cover rounded" />;
+                })}
+              </div>
             )}
           </div>
+
           <div>
             <div className="label-muted">Videos (multiple)</div>
-            <input type="file" multiple accept="video/*"
-              onChange={(e)=>setVideos([...e.target.files])} />
+            <input
+              id="video-upload"
+              type="file"
+              multiple
+              accept="video/*"
+              className="hidden"
+              onChange={(e)=>setVideos(Array.from(e.target.files || []))}
+            />
+            <label htmlFor="video-upload" className="btn w-full justify-center border-2 border-dashed border-purple-400 text-purple-700 hover:bg-purple-50">
+              + Add videos
+            </label>
             {videos.length > 0 && (
-              <div className="text-xs text-slate-400 mt-1">{videos.length} selected</div>
+              <div className="mt-2 text-xs text-slate-400">
+                {videos.length} selected: {videos.map((f,i)=>f.name).join(", ")}
+              </div>
+            )}
+            {videos.length > 0 && (
+              <div className="mt-2 grid grid-cols-1 gap-2">
+                {videos.slice(0, 3).map((file, idx) => {
+                  const src = URL.createObjectURL(file);
+                  return (
+                    <video key={idx} src={src} className="h-24 w-full object-cover rounded" controls muted />
+                  );
+                })}
+              </div>
             )}
           </div>
         </div>
